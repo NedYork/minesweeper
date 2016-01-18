@@ -5,39 +5,32 @@ var Tabs = React.createClass({
     return ( {tabIndex : 0} );
   },
   tabClick: function (e) {
-
-    this.setState({tabIndex: parseInt(e.target.attributes.classid.value)});
+    var targetIndex = e.target.attributes.classid.value;
+    this.setState({tabIndex: parseInt(targetIndex)});
   },
   render: function () {
     return (
       <div>
-        <h1>
-          Titles
-        </h1>
-        <header>
+        <header className="tab-header">
           <ul>
             {this.props.tabsList.map(function (tab, index) {
+
               return (
                 <li
                   key={ index }
-                  className={ index === this.state.tabIndex ? "selected" : "" }
+                  className={ index === this.state.tabIndex ? "tab selected" : "tab" }
                   classID={ index }
                   onClick={this.tabClick}>
                   {tab.title}
                 </li>
-                );
-            }.bind(this))}
+                );}.bind(this))}
           </ul>
         </header>
 
         <article>
-            <h1>
-              Content
-            </h1>
-            <p>
-              {this.props.tabsList[this.state.tabIndex].content}
-            </p>
+          {this.props.tabsList[this.state.tabIndex].content}
         </article>
+
       </div>
     );
   }

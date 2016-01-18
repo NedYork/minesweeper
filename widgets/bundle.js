@@ -19820,30 +19820,26 @@
 	    return { tabIndex: 0 };
 	  },
 	  tabClick: function (e) {
-	
-	    this.setState({ tabIndex: parseInt(e.target.attributes.classid.value) });
+	    var targetIndex = e.target.attributes.classid.value;
+	    this.setState({ tabIndex: parseInt(targetIndex) });
 	  },
 	  render: function () {
 	    return React.createElement(
 	      "div",
 	      null,
 	      React.createElement(
-	        "h1",
-	        null,
-	        "Titles"
-	      ),
-	      React.createElement(
 	        "header",
-	        null,
+	        { className: "tab-header" },
 	        React.createElement(
 	          "ul",
 	          null,
 	          this.props.tabsList.map(function (tab, index) {
+	
 	            return React.createElement(
 	              "li",
 	              {
 	                key: index,
-	                className: index === this.state.tabIndex ? "selected" : "",
+	                className: index === this.state.tabIndex ? "tab selected" : "tab",
 	                classID: index,
 	                onClick: this.tabClick },
 	              tab.title
@@ -19854,16 +19850,7 @@
 	      React.createElement(
 	        "article",
 	        null,
-	        React.createElement(
-	          "h1",
-	          null,
-	          "Content"
-	        ),
-	        React.createElement(
-	          "p",
-	          null,
-	          this.props.tabsList[this.state.tabIndex].content
-	        )
+	        this.props.tabsList[this.state.tabIndex].content
 	      )
 	    );
 	  }

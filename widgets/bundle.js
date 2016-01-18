@@ -47,6 +47,7 @@
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
 	var Autocomplete = __webpack_require__(159);
+	var WeatherClock = __webpack_require__(160);
 	
 	var nameslist = ["foo", "bar", "baz"];
 	
@@ -57,7 +58,8 @@
 	    return React.createElement(
 	      'div',
 	      null,
-	      React.createElement(Autocomplete, { names: nameslist })
+	      React.createElement(Autocomplete, { names: nameslist }),
+	      React.createElement(WeatherClock, null)
 	    );
 	  }
 	});
@@ -19707,6 +19709,54 @@
 	});
 	
 	module.exports = Autocomplete;
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var WeatherClock = React.createClass({
+	  displayName: 'WeatherClock',
+	
+	  render: function () {
+	    return React.createElement(
+	      'div',
+	      null,
+	      React.createElement(Clock, null)
+	    );
+	  }
+	});
+	
+	var Clock = React.createClass({
+	  displayName: 'Clock',
+	
+	  getInitialState: function () {
+	    return { currentTime: new Date() };
+	  },
+	  componentDidMount: function () {
+	    this.intervalId = setInterval(this.tick, 1000);
+	  },
+	  tick: function () {
+	    this.setState({ currentTime: new Date() });
+	  },
+	  componentWillUnmount: function () {
+	    this.clearInterval(intervalId);
+	  },
+	  render: function () {
+	    return React.createElement(
+	      'figure',
+	      null,
+	      this.state.currentTime.toString()
+	    );
+	  }
+	});
+	
+	// var Weather = React.createClass({
+	//
+	// });
+	
+	module.exports = WeatherClock;
 
 /***/ }
 /******/ ]);

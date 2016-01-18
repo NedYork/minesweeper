@@ -46,21 +46,34 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var Board = __webpack_require__(159).Board;
-	var Tile = __webpack_require__(159).Tile;
+	var Minesweeper = __webpack_require__(159);
+	var Board = __webpack_require__(160);
 	
 	var Game = React.createClass({
 	  displayName: 'Game',
 	
 	  getInitialState: function () {
-	    return { board: new Board(20, 10) };
+	    return { board: new Minesweeper.Board(20, 10) };
 	  },
-	  updateGame: function () {},
+	  updateGame: function (tile, flag) {
+	    if (flag) {
+	      tile.toggleFlag();
+	    } else {
+	      tile.explore();
+	    }
+	    if (this.state.board.won()) {
+	      alert("Congratulations! You Won!");
+	    } else if (this.state.board.lost()) {
+	      alert("You Lose!!  Man You Suck at This!");
+	    }
+	
+	    this.setState({ board: this.state.board });
+	  },
 	  render: function () {
 	    return React.createElement(
 	      'div',
 	      null,
-	      ' Hello World123 '
+	      React.createElement(Board, { board: this.state.board, updateCB: this.updateGame })
 	    );
 	  }
 	});
@@ -19792,6 +19805,85 @@
 	  Board: Board,
 	  Tile: Tile
 	};
+
+/***/ },
+/* 160 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	var Tile = __webpack_require__(161);
+	
+	var Board = React.createClass({
+	  displayName: 'Board',
+	
+	  render: function () {
+	    var board = this.props.board;
+	    return React.createElement(
+	      'div',
+	      { className: 'game' },
+	      board.grid.map(function (row, rowIdx) {
+	        return React.createElement(
+	          'div',
+	          { key: rowIdx, className: "row " + rowIdx },
+	          row.map(function (tile, colIdx) {
+	            return React.createElement(Tile, {
+	              key: colIdx,
+	              tile: tile,
+	              updateCB: this.props.updateCB
+	            });
+	          }.bind(this))
+	        );
+	      }.bind(this))
+	    );
+	  }
+	});
+	
+	module.exports = Board;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Tile = React.createClass({
+	  displayName: "Tile",
+	
+	  render: function () {
+	    var char;
+	    var modal;
+	    var tile = this.props.tile;
+	    if (tile.flagged) {
+	      char = "F";
+	    } else if (!tile.explored) {
+	      char = "T";
+	    } else {
+	      char = tile.adjacentBombCount();
+	      if (char === 0) {
+	        char = "";
+	      }
+	    }
+	
+	    if (tile.bombed) {
+	      modal = true;
+	    }
+	
+	    return React.createElement(
+	      "div",
+	      {
+	        className: modal ? "tile modal" : "tile",
+	        onClick: this.handleClick },
+	      char
+	    );
+	  },
+	  handleClick: function (e) {
+	    var flag = e.altKey;
+	    this.props.updateCB(this.props.tile, flag);
+	  }
+	
+	});
+	
+	module.exports = Tile;
 
 /***/ }
 /******/ ]);

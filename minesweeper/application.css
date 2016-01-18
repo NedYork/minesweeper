@@ -1,3 +1,40 @@
+html, body, main, div, ul, li {
+  border: 0;
+  margin: 0;
+  padding: 0;
+
+  color: inherit;
+  text-align: inherit;
+  background: inherit;
+
+  text-decoration: none;
+  list-style: none;
+}
+
+.game {
+  margin: auto;
+  display: block;
+ 
+}
+
+.game:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.row {
+  margin: auto;
+  display: block;
+  float: left;
+}
+
 #main {
   color: #CC0000;
+}
+
+.tile {
+  height: 15px;
+  width: 15px;
+  border: 1px solid black;
 }

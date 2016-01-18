@@ -1,6 +1,6 @@
 var React = require('react');
 var ReactDOM = require('react-dom');
-var Autocomplete = require('autocomplete');
+var Autocomplete = require('./autocomplete');
 
 var nameslist = ["foo", "bar", "baz"];
 

@@ -46,7 +46,7 @@
 
 	var React = __webpack_require__(1);
 	var ReactDOM = __webpack_require__(158);
-	var Autocomplete = __webpack_require__(!(function webpackMissingModule() { var e = new Error("Cannot find module \"autocomplete\""); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+	var Autocomplete = __webpack_require__(159);
 	
 	var nameslist = ["foo", "bar", "baz"];
 	
@@ -19660,6 +19660,53 @@
 	
 	module.exports = __webpack_require__(3);
 
+
+/***/ },
+/* 159 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Autocomplete = React.createClass({
+	  displayName: "Autocomplete",
+	
+	  getInitialState: function () {
+	    return { partialName: "" };
+	  },
+	  handleChange: function (e) {
+	    // debugger;
+	    this.setState({ partialName: e.target.value });
+	  },
+	  nameClick: function (e) {
+	    this.setState({ partialName: e.target.innerHTML });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement("input", {
+	        type: "text",
+	        value: this.state.partialName,
+	        onChange: this.handleChange,
+	        placeholder: "Type here" }),
+	      React.createElement(
+	        "ul",
+	        null,
+	        this.props.names.filter(function (name) {
+	          return name.match(this.state.partialName);
+	        }.bind(this)).map(function (name) {
+	          return React.createElement(
+	            "li",
+	            { key: Math.random(), onClick: this.nameClick },
+	            name
+	          );
+	        }.bind(this))
+	      )
+	    );
+	  }
+	});
+	
+	module.exports = Autocomplete;
 
 /***/ }
 /******/ ]);

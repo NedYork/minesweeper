@@ -48,6 +48,7 @@
 	var ReactDOM = __webpack_require__(158);
 	var Autocomplete = __webpack_require__(159);
 	var WeatherClock = __webpack_require__(160);
+	var Tabs = __webpack_require__(161);
 	
 	var nameslist = ["foo", "bar", "baz"];
 	
@@ -19717,19 +19718,20 @@
 	var React = __webpack_require__(1);
 	
 	var WeatherClock = React.createClass({
-	  displayName: 'WeatherClock',
+	  displayName: "WeatherClock",
 	
 	  render: function () {
 	    return React.createElement(
-	      'div',
+	      "div",
 	      null,
-	      React.createElement(Clock, null)
+	      React.createElement(Clock, null),
+	      React.createElement(Weather, null)
 	    );
 	  }
 	});
 	
 	var Clock = React.createClass({
-	  displayName: 'Clock',
+	  displayName: "Clock",
 	
 	  getInitialState: function () {
 	    return { currentTime: new Date() };
@@ -19745,18 +19747,75 @@
 	  },
 	  render: function () {
 	    return React.createElement(
-	      'figure',
+	      "figure",
 	      null,
 	      this.state.currentTime.toString()
 	    );
 	  }
 	});
 	
-	// var Weather = React.createClass({
-	//
-	// });
+	var Weather = React.createClass({
+	  displayName: "Weather",
+	
+	  getInitialState: function () {
+	    return { weather: undefined };
+	  },
+	  positionSuccess: function (position) {
+	    var request;
+	    var latitude = Math.floor(position.coords.latitude);
+	    var longitude = Math.floor(position.coords.longitude);
+	    var url = "http://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&APPID=645c5d39c7603f17e23fcaffcea1a3c1";
+	
+	    request = new XMLHttpRequest();
+	    request.open("GET", url, true);
+	
+	    request.onload = function () {
+	      if (request.status >= 200 && request.status < 400) {
+	        this.setState({ weather: JSON.parse(request.response) });
+	      } else {
+	        console.log("Else");
+	      }
+	    }.bind(this);
+	
+	    request.send();
+	  },
+	  componentDidMount: function () {
+	    navigator.geolocation.getCurrentPosition(this.positionSuccess, function (error) {
+	      console.log(error);
+	    });
+	  },
+	  render: function () {
+	    if (this.state.weather) {
+	      var temperature = (this.state.weather.main.temp - 273).toFixed(1);
+	      var weather = this.state.weather.weather[0].description;
+	      return React.createElement(
+	        "div",
+	        null,
+	        "Temperature: " + temperature + "Weather: " + weather
+	      );
+	    } else {
+	      return React.createElement(
+	        "div",
+	        null,
+	        " Loading Weather..."
+	      );
+	    }
+	  }
+	});
 	
 	module.exports = WeatherClock;
+
+/***/ },
+/* 161 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var React = __webpack_require__(1);
+	
+	var Tabs = React.createClass({
+	  displayName: 'Tabs'
+	});
+	
+	module.exports = Tabs;
 
 /***/ }
 /******/ ]);

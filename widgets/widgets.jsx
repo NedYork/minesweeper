@@ -5,6 +5,10 @@ var WeatherClock = require('./weatherclock');
 var Tabs = require('./tabs');
 
 var nameslist = ["foo", "bar", "baz"];
+var tabsList = [{title: "Foo", content: "Bar" },
+  {title: "Title2", content: "content2"},
+  {title: "Third TItle ", content: "THird body content" },
+  {title: "BIG TITLE!", content: "NO CONTENT" }];
 
 var Widgets = React.createClass({
   render: function () {
@@ -13,6 +17,8 @@ var Widgets = React.createClass({
         <Autocomplete names={nameslist}/>
 
         <WeatherClock />
+
+        <Tabs tabsList={tabsList}/>
 
       </div>
     );

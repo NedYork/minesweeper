@@ -51,6 +51,7 @@
 	var Tabs = __webpack_require__(161);
 	
 	var nameslist = ["foo", "bar", "baz"];
+	var tabsList = [{ title: "Foo", content: "Bar" }, { title: "Title2", content: "content2" }, { title: "Third TItle ", content: "THird body content" }, { title: "BIG TITLE!", content: "NO CONTENT" }];
 	
 	var Widgets = React.createClass({
 	  displayName: 'Widgets',
@@ -60,7 +61,8 @@
 	      'div',
 	      null,
 	      React.createElement(Autocomplete, { names: nameslist }),
-	      React.createElement(WeatherClock, null)
+	      React.createElement(WeatherClock, null),
+	      React.createElement(Tabs, { tabsList: tabsList })
 	    );
 	  }
 	});
@@ -19812,7 +19814,59 @@
 	var React = __webpack_require__(1);
 	
 	var Tabs = React.createClass({
-	  displayName: 'Tabs'
+	  displayName: "Tabs",
+	
+	  getInitialState: function () {
+	    return { tabIndex: 0 };
+	  },
+	  tabClick: function (e) {
+	
+	    this.setState({ tabIndex: parseInt(e.target.attributes.classid.value) });
+	  },
+	  render: function () {
+	    return React.createElement(
+	      "div",
+	      null,
+	      React.createElement(
+	        "h1",
+	        null,
+	        "Titles"
+	      ),
+	      React.createElement(
+	        "header",
+	        null,
+	        React.createElement(
+	          "ul",
+	          null,
+	          this.props.tabsList.map(function (tab, index) {
+	            return React.createElement(
+	              "li",
+	              {
+	                key: index,
+	                className: index === this.state.tabIndex ? "selected" : "",
+	                classID: index,
+	                onClick: this.tabClick },
+	              tab.title
+	            );
+	          }.bind(this))
+	        )
+	      ),
+	      React.createElement(
+	        "article",
+	        null,
+	        React.createElement(
+	          "h1",
+	          null,
+	          "Content"
+	        ),
+	        React.createElement(
+	          "p",
+	          null,
+	          this.props.tabsList[this.state.tabIndex].content
+	        )
+	      )
+	    );
+	  }
 	});
 	
 	module.exports = Tabs;
